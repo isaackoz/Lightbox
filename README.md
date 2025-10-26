@@ -1,38 +1,19 @@
-# sv
+# Lightbox
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Software
+This is a very very simple app for a lightbox kiosk I made for my girlfriend.
 
-## Creating a project
+This is designed to be run locally on a raspberry pi. The node server exposes two endpoints: `/kiosk` and `/`. 
 
-If you're seeing this, you've probably already done this step. Congrats!
+`/kiosk` connects to the server via SSE at the endpoint `/kiosk/sse` and remains indefinitely open. On the bottom right it also displays the IP address of the server. 
 
-```sh
-# create a new project in the current directory
-npx sv create
+`/` is for the settings. Accessible on the same network, anyone can go on and change the background color, upload an image, and change the scale of the image. 
 
-# create a new project in my-app
-npx sv create my-app
-```
+This was made in about an hour so it isn't scalable, has no validation, stores the image in memory in base64, and should only be run on a single server locally... But it does the job!
 
-## Developing
+## Hardware
+For the physical lightbox, I used an old monitor and raspberry pi I had lying around. Finally, after all these years a use for the over-hyped raspberry pi!
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+I built a frame/enclosure for the monitor using some scrap wood. To avoid damaging the screen, I had an old painting sitting in the shed. I took the glass from it, cut it to the size of the monitor, and fit it on top. Voila, a lightbox! 
 
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+I set the raspi up to run the server, enter kiosk mode in chromium, and go to the url `/kiosk`. Since the raspberry pi has some GPIO pins, I added a tiny little button that just refreshses the page (f5). I did this because sometimes the page would lose connection to the SSE. Yes, I added a physical button instead of implementing re-connection logic to the SSE endpoint. It's amazing how much you can get away with when you don't have to care for scale, authentication, validation, or anything as a matter of fact. 

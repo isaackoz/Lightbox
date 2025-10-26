@@ -37,12 +37,26 @@
 {#if !globalSettings}
 	<div class="text-red-500">Could not load settings, try refreshing the page</div>
 {:else}
+	<div class="fixed right-0 bottom-0 z-10 text-xs">
+		{#each globalSettings.serverIps as ip}
+			| {ip} |
+		{/each}
+	</div>
 	<div
 		class="fixed top-0 right-0 bottom-0 left-0"
-		style={`background-color: ${globalSettings.color};`}
+		style={`
+      background-color: ${globalSettings.color};
+    `}
 	>
 		{#if globalSettings.imageBase64}
-			<img src={globalSettings.imageBase64} alt="preview" class="h-full w-full object-contain" />
+			<img
+				src={globalSettings.imageBase64}
+				alt="preview"
+				class="h-full w-full object-contain"
+				style={`
+      transform: scale(${globalSettings.scaleFactor ?? 1}) rotate(${globalSettings.rotationInterval ?? 0}deg);
+      `}
+			/>
 		{/if}
 	</div>
 {/if}
